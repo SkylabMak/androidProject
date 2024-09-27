@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#FF5722</color> <!-- สีส้มสดใส-->
+    <color name="colorPrimaryDark">#E64A19</color> <!-- สีส้ม-->
+    <color name="colorAccent">#FFC107</color> <!-- สีเหลือง -->
+    <color name="backgroundColor">#FFF2E1</color> <!-- ขาว -->
+    <color name="textColorPrimary">#212121</color> <!-- สีดำเข้ม-->
+    <color name="textColorSecondary">#757575</color> <!-- สีเทา-->
+    <color name="buttonColor">#FF9800</color> <!-- สีปุ่มส้ม-->
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +15,5 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="black_alpha_10">#1A000000</color>
 </resources>

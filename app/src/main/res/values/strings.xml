@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">androidProject</string>
+    <string name="category">ประเภทอาหาร</string>
+    <string name="menu">เมนู</string>
+    <string name="vegetable">ผัก</string>
+    <string name="Meat">เนื้อสัตว์</string>
+    <string name="specific">ประเภท</string>
+    <string name="food_allergies">Food allergies</string>
+    <string name="randomBtn">สุ่ม</string>
+    <string name="food_random">สุ่มอาหาร</string>
+    <string name="cooking_method">การปรุง</string>
 </resources>

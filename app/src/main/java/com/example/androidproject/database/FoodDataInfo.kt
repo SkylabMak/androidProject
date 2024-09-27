@@ -5,6 +5,7 @@ data class Menu(
     val name: String,
     val hasMeat: Boolean,
     val hasNoodles: Boolean,
+    val hasWater : Boolean,
     val hasVegetables: Boolean,
     val hasOthers: Boolean,
     val categoryId: String,
@@ -20,5 +21,3 @@ data class OtherIngredients(val ingredientId: String, val ingredientName: String
 data class CookingMethod(val methodId: String, val methodName: String) : Item(methodId, methodName)
 data class Category(val categoryId: String, val categoryName: String) : Item(categoryId, categoryName)
 data class Water(val waterId: String, val waterName: String) : Item(waterId, waterName)
-
-

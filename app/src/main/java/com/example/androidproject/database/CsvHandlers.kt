@@ -1,16 +1,18 @@
 package com.example.androidproject.database
-import java.io.File
-import kotlin.random.Random
 
-abstract class CSVHandler(private val fileName: String) {
+import android.content.Context
+import java.io.BufferedReader
+import java.io.InputStreamReader
+
+abstract class CSVHandler(private val rawResourceId: Int, private val context: Context) {
     protected fun readCSV(): List<List<String>> {
         val result = mutableListOf<List<String>>()
-        val file = File("database/$fileName")
-        if (file.exists()) {
-            file.bufferedReader().useLines { lines ->
-                lines.forEach { line ->
-                    result.add(line.split(","))
-                }
+
+        val inputStream = context.resources.openRawResource(rawResourceId)
+        BufferedReader(InputStreamReader(inputStream)).use { reader ->
+            reader.readLine() // Skip the first line (header)
+            reader.forEachLine { line ->
+                result.add(line.split(","))
             }
         }
         return result
@@ -26,49 +28,23 @@ abstract class CSVHandler(private val fileName: String) {
 
     fun random(): List<String>? {
         val allData = readCSV()
-        return if (allData.isNotEmpty()) allData[Random.nextInt(allData.size)] else null
+        return if (allData.isNotEmpty()) allData.random() else null
     }
 }
 
-abstract class MenuHandler(fileName: String) : CSVHandler(fileName) {
-    private val menus: List<Menu> = readCSV().map { line ->
-        Menu(
-            id = line[0],
-            name = line[1],
-            hasMeat = line[2] == "1",
-            hasNoodles = line[3] == "1",
-            hasVegetables = line[4] == "1",
-            hasOthers = line[5] == "1",
-            categoryId = line[6],
-            cookingMethodId = line[7]
-        )
-    }
-
-    fun findAll(): List<Menu> {
-        return menus
-    }
-
-    fun getById(id: String): Menu? {
-        return menus.firstOrNull { it.id == id }
-    }
-
-    fun randomManu(): Menu? {
-        return if (menus.isNotEmpty()) menus.random() else null
-    }
-}
-
-abstract class CSVHandlerItem<T : Item>(private val fileName: String, private val mapper: (List<String>) -> T) {
+abstract class CSVHandlerItem<T : Item>(private val rawResourceId: Int, private val context: Context, private val mapper: (List<String>) -> T) {
 
     private val items: List<T> = readCSV().map { line -> mapper(line) }
 
     private fun readCSV(): List<List<String>> {
         val result = mutableListOf<List<String>>()
-        val file = File("database/$fileName")
-        if (file.exists()) {
-            file.bufferedReader().useLines { lines ->
-                lines.forEach { line ->
-                    result.add(line.split(","))
-                }
+
+        // อ่านไฟล์จาก res/raw
+        val inputStream = context.resources.openRawResource(rawResourceId)
+        BufferedReader(InputStreamReader(inputStream)).use { reader ->
+            reader.readLine() // Skip the first line (header)
+            reader.forEachLine { line ->
+                result.add(line.split(","))
             }
         }
         return result
@@ -87,3 +63,45 @@ abstract class CSVHandlerItem<T : Item>(private val fileName: String, private va
     }
 }
 
+open class MenuHandler(rawResourceId: Int, context: Context) : CSVHandler(rawResourceId, context) {
+    private val menus: List<Menu> = readCSV().map { line ->
+        Menu(
+            id = line[0],
+            name = line[1],
+            hasMeat = line[2] == "1",
+            hasNoodles = line[3] == "1",
+            hasWater = line[4] == "1",
+            hasVegetables = line[5] == "1",
+            hasOthers = line[6] == "1",
+            categoryId = line[7],
+            cookingMethodId = line[8]
+        )
+    }
+
+    fun findAll(): List<Menu> {
+        return menus
+    }
+
+    fun getById(id: String): Menu? {
+        return menus.firstOrNull { it.id == id }
+    }
+
+    fun randomMenu(category: String, cookingMethod: String): Menu? {
+        if(category == "0" && cookingMethod == "0"){
+            return if (menus.isNotEmpty()) menus.random() else null
+        }
+        else{
+            val filteredMenus = filterMenus(category,cookingMethod)
+            return filteredMenus.random();
+        }
+    }
+
+    public fun filterMenus(category: String? = null, cookingMethod: String? = null): List<Menu> {
+        return menus.map { menu ->
+            menu.copy(
+                categoryId = category ?: menu.categoryId,
+                cookingMethodId = cookingMethod ?: menu.cookingMethodId,
+            )
+        }
+    }
+}
