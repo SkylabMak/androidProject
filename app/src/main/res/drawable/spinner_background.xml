@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- กำหนดสีพื้นหลัง -->
+    <solid android:color="#F5D7B8" />  <!-- สีเหลืองทอง -->
+
+    <!-- กำหนดความโค้งของมุม (กรอบมน) -->
+    <corners android:radius="16dp" />
+
+    <!-- กำหนดเส้นขอบ -->
+    <stroke
+        android:width="2dp"
+        android:color="#000000" /> <!-- สีดำ -->
+
+    <!-- เงาขอบด้านใน (padding) -->
+    <padding
+        android:top="5dp"
+        android:bottom="5dp" />
+</shape>

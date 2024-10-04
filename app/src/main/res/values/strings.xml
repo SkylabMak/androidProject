@@ -5,8 +5,11 @@
     <string name="vegetable">ผัก</string>
     <string name="Meat">เนื้อสัตว์</string>
     <string name="specific">ประเภท</string>
-    <string name="food_allergies">Food allergies</string>
+    <string name="food_allergies">วัตถุดิบที่แพ้</string>
     <string name="randomBtn">สุ่ม</string>
     <string name="food_random">สุ่มอาหาร</string>
     <string name="cooking_method">การปรุง</string>
+    <string name="resultMenu">ผัดพริกเผากุ้ง</string>
+    <string name="cal_value">%d แคลอรี่</string>
+    <string name="NoInfoNow">ยังไม่มีข้อมูลณะตอนนี้</string>
 </resources>

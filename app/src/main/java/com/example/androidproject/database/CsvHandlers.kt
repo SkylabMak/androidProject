@@ -1,8 +1,10 @@
 package com.example.androidproject.database
 
 import android.content.Context
+import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.lang.Integer.parseInt
 
 abstract class CSVHandler(private val rawResourceId: Int, private val context: Context) {
     protected fun readCSV(): List<List<String>> {
@@ -61,9 +63,14 @@ abstract class CSVHandlerItem<T : Item>(private val rawResourceId: Int, private 
     fun findRandom(): T? {
         return if (items.isNotEmpty()) items.random() else null
     }
+
+    fun findRandom(id:String): T? {
+        val filtered = items.filter { it.id!=id}
+        return if (filtered.isNotEmpty()) filtered.random() else null
+    }
 }
 
-open class MenuHandler(rawResourceId: Int, context: Context) : CSVHandler(rawResourceId, context) {
+open class  MenuHandler(rawResourceId: Int, context: Context) : CSVHandler(rawResourceId, context) {
     private val menus: List<Menu> = readCSV().map { line ->
         Menu(
             id = line[0],
@@ -74,7 +81,8 @@ open class MenuHandler(rawResourceId: Int, context: Context) : CSVHandler(rawRes
             hasVegetables = line[5] == "1",
             hasOthers = line[6] == "1",
             categoryId = line[7],
-            cookingMethodId = line[8]
+            cookingMethodId = line[8],
+            cal = parseInt(line[9])
         )
     }
 
@@ -86,22 +94,34 @@ open class MenuHandler(rawResourceId: Int, context: Context) : CSVHandler(rawRes
         return menus.firstOrNull { it.id == id }
     }
 
-    fun randomMenu(category: String, cookingMethod: String): Menu? {
-        if(category == "0" && cookingMethod == "0"){
-            return if (menus.isNotEmpty()) menus.random() else null
-        }
-        else{
-            val filteredMenus = filterMenus(category,cookingMethod)
-            return filteredMenus.random();
+    fun randomMenu(category: String, cookingMethod: String, vegetable: String, meat: String): Menu? {
+        return if (category == "0" && cookingMethod == "0") {
+            // คืนค่าสุ่มเมนูจากรายการทั้งหมดถ้าไม่กรองหมวดหมู่และวิธีทำอาหาร
+            if (menus.isNotEmpty()) menus.random() else null
+        } else {
+            // กรองเมนูตามหมวดหมู่และวิธีทำอาหาร
+            val filteredMenus = filterMenus(category, cookingMethod)
+            // ตรวจสอบว่ารายการที่กรองมาได้ว่างหรือไม่
+            return if (filteredMenus.isNotEmpty()) {
+                val randomEd = filteredMenus.random()
+                Log.d("filteredMenus", "$filteredMenus")
+                Log.d("randomMenu", "$randomEd")
+                randomEd
+            } else {
+                Log.d("filteredMenus", "No menus available after filtering")
+                null
+            }
         }
     }
 
+
     public fun filterMenus(category: String? = null, cookingMethod: String? = null): List<Menu> {
-        return menus.map { menu ->
-            menu.copy(
-                categoryId = category ?: menu.categoryId,
-                cookingMethodId = cookingMethod ?: menu.cookingMethodId,
-            )
+        Log.d("filterID", "$category $cookingMethod")
+        return menus.filter { menu ->
+            val isCategoryMatch = category?.let { it == menu.categoryId } ?: true
+            val isCookingMethodMatch = cookingMethod?.let { it == menu.cookingMethodId } ?: true
+            isCategoryMatch && isCookingMethodMatch
         }
     }
+
 }

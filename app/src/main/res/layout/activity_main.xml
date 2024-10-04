@@ -10,8 +10,44 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:text="@string/food_random"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/result_menu_background"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/resultNameDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/resultMenu"
+            android:gravity="center"
+            android:minWidth="200dp"
+            android:textColor="#000000"
+            android:textSize="50sp"
+        />
+
+        <TextView
+            android:id="@+id/resultCalDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cal_value"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="20sp"
+        />
+    </LinearLayout>
+
+
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,9 +55,10 @@
 
     <LinearLayout
         android:id="@+id/main_body"
-        android:layout_width="280dp"
+        android:layout_width="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+        android:layout_marginHorizontal="80dp"
         android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/main_select_container"
@@ -29,7 +66,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp">
+            android:layout_marginBottom="20dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,6 +99,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
+                        android:background="@drawable/spinner_background"
+                        android:layout_marginVertical="2dp"
+                        android:gravity="center"
+                        android:minWidth="120dp"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -84,6 +125,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
+                        android:minWidth="120dp"
+                        android:gravity="center"
+                        android:background="@drawable/spinner_background"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -94,7 +138,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp">
+            android:layout_marginBottom="20dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,6 +171,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
+                        android:minWidth="120dp"
+                        android:gravity="center"
+                        android:background="@drawable/spinner_background"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -136,7 +183,8 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -173,6 +221,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
+                        android:layout_marginVertical="2dp"
+                        android:minWidth="120dp"
+                        android:gravity="center"
+                        android:background="@drawable/spinner_background"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -196,6 +248,9 @@
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         android:spinnerMode="dropdown"
+                        android:minWidth="120dp"
+                        android:gravity="center"
+                        android:background="@drawable/spinner_background"
                         />
                 </LinearLayout>
             </LinearLayout>
