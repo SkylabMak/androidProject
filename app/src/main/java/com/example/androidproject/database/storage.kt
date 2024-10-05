@@ -12,3 +12,5 @@ class OtherIngredientsCSVStorage(context: Context) : CSVHandlerItem<OtherIngredi
 class CookingMethodCSVStorage(context: Context) : CSVHandlerItem<CookingMethod>(R.raw.cooking_method, context, { line -> CookingMethod(line[0], line[1],parseInt(line[2])) })
 class CategoryCSVStorage(context: Context) : CSVHandlerItem<Category>(R.raw.category, context, { line -> Category(line[0], line[1],parseInt(line[2])) })
 class WaterCSVStorage(context: Context) : CSVHandlerItem<Water>(R.raw.water, context, { line -> Water(line[0], line[1],parseInt(line[2])) })
+
+

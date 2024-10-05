@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomSpinnerStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/spinner_background</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">120dp</item>
+        <item name="android:spinnerMode">dropdown</item>
+    </style>
+
+    <style name="CustomTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="CustomBigTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="CustomTextViewStyleWithMargin">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="CustomLinearLayoutSelectStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:gravity">clip_horizontal</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="CustomVerticalLinearLayoutGroupStyle">
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+    <style name="CustomVerticalLinearLayoutGroupBodyStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="CustomLinearLayoutList">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+</resources>

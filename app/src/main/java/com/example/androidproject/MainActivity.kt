@@ -29,6 +29,13 @@ class MainActivity : ComponentActivity() {
     private lateinit var cookingMethod: CookingMethodCSVStorage
     private lateinit var category: CategoryCSVStorage
 
+    //store
+    private lateinit var menuResult : Menu
+    private var itemResult: MutableList<Item> = mutableListOf()
+    private var foodName = StringWrapper("food")
+    //private var itemResult: Array<Item> = Array(5){ Item("defaultId", "defaultName", 0,0)}
+    private var firstRandom = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,10 +49,12 @@ class MainActivity : ComponentActivity() {
         category = CategoryCSVStorage(this)
 
         //setup
+        binding.detailInfo.visibility = View.GONE
         binding.resultCalDisplay.text = getString(R.string.cal_value, 0)
         setupConflictSelect()
         setupSpinners()
         setupRandomBtn()
+
     }
 
     private fun initializeIngredients() {
@@ -60,6 +69,23 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun setupDetailBtn(){
+        binding.detailInfo.visibility = View.VISIBLE
+        binding.constraintResult.setOnClickListener {
+            Log.d("Detail", "Detail constraint clicked!")
+            val config = ConfigDataCal(//run data class
+                name = foodName,
+                menu = menuResult,
+                item = itemResult
+            )
+            val intent = DetailActivity.newIntent(
+                context = this,
+                config = config
+            )
+            startActivity(intent)
+        }
+    }
+
     private fun getRandomMenu(
         menuID: Int,
         catID: Int,
@@ -67,8 +93,8 @@ class MainActivity : ComponentActivity() {
         vegetableID: Int,
         meatID: Int,
     ): Menu? {
+        Log.d("foodID", "$menuID $catID $cookID $vegetableID $meatID")
         return if (menuID == 0) {
-            Log.d("catID cookID", "$catID$cookID")
             menu.randomMenu(
                 catID.toString(),
                 cookID.toString(),
@@ -85,6 +111,8 @@ class MainActivity : ComponentActivity() {
         binding.randomButton.setOnClickListener {
             Log.d("RandomButton", "Random button clicked!")
             initializeIngredients()
+
+            itemResult.clear()
 
             val result = StringBuilder()
             val totalCalories = AtomicInteger(0)
@@ -112,6 +140,14 @@ class MainActivity : ComponentActivity() {
             addIngredientToResult(randomMenu.hasOthers, 0, other, result, totalCalories)
             binding.resultNameDisplay.text = result.toString()
             binding.resultCalDisplay.text = getString(R.string.cal_value, totalCalories.get())
+
+            //setToNextPage
+            menuResult = randomMenu
+            foodName = StringWrapper(result.toString())
+            if(!firstRandom){
+                firstRandom = true
+                setupDetailBtn()
+            }
         }
     }
 
@@ -122,18 +158,27 @@ class MainActivity : ComponentActivity() {
         result: StringBuilder,
         resultCal: AtomicInteger,
     ) {
-        if (hasIngredient) {
             val ingredient: T? = if (ingredientID != 0) {
-                item.findRandom(ingredientID.toString())  // ใช้ findRandomExclude เพื่อข้าม ingredient ที่มี id ตรงกับที่ส่งเข้ามา
+                item.findRandom(ingredientID.toString())
             } else {
-                item.findRandom()  // ใช้ findRandom เพื่อสุ่มเลือก
+                item.findRandom()
             }
-
             if (ingredient != null) {
-                result.append(" " + ingredient.name)  // ใช้ append() เพื่อเพิ่มข้อความเข้าไปใน StringBuilder
-                resultCal.addAndGet(ingredient.cal)  // เพิ่มแคลอรี่เข้าไปใน resultCal
+                if (hasIngredient) {
+                    result.append(" " + ingredient.name)
+                    resultCal.addAndGet(ingredient.cal)
+                    Log.d("resultCal",resultCal.get().toString())
+                    itemResult.add(ingredient)
+                }
+                else{
+                    itemResult.add(Item("","",0,0))
+                }
+                Log.d("checkInputintend","add ${ingredient.name}")
             }
-        }
+            else{
+                itemResult.add(Item("","",0,0))
+                Log.d("checkInputintend","add 0")
+            }
     }
 
 
@@ -231,7 +276,7 @@ class MainActivity : ComponentActivity() {
     private fun setupSpinners() {
         setupSpinner(binding.categorySelect, category.findAll())
         setupSpinner(binding.methodSelect, cookingMethod.findAll())
-        setupSpinner(binding.menuSelect, menu.findAll().map { Item(it.id, it.name, it.cal) })
+        setupSpinner(binding.menuSelect, menu.findAll().map { Item(it.id, it.name, it.cal,it.index) })
         setupSpinner(binding.vegetablePrevent, vegetable.findAll())
         setupSpinner(binding.meatPrevent, meats.findAll())
     }
@@ -244,8 +289,11 @@ class MainActivity : ComponentActivity() {
         itemNames.add(0, "ไม่เลือก")
 
         // Setup the adapter with itemNames
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, itemNames)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, itemNames)
+        val adapter = CustomArrayAdapter(this, android.R.layout.simple_spinner_item, itemNames)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        spinner.setPopupBackgroundResource(R.drawable.rounded_dropdown)
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
         // Set the selection to the first item ("ไม่เลือก")

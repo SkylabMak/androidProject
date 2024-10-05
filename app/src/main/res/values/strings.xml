@@ -11,5 +11,14 @@
     <string name="cooking_method">การปรุง</string>
     <string name="resultMenu">ผัดพริกเผากุ้ง</string>
     <string name="cal_value">%d แคลอรี่</string>
+    <string name="cal">แคลอรี่</string>
     <string name="NoInfoNow">ยังไม่มีข้อมูลณะตอนนี้</string>
+    <string name="list">รายการ</string>
+    <string name="noodles">เส้น</string>
+    <string name="water">น้ำ</string>
+    <string name="other">วัตถุดิบอื่นๆ</string>
+    <string name="back">กลับ</string>
+    <string name="sum">รวมทั้งหมด</string>
+    <string name="detail">รายละเอียด</string>
+    <string name="title_activity_detail2">detailActivity2</string>
 </resources>

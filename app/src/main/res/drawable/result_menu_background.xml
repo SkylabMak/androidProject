@@ -5,7 +5,7 @@
     <corners android:radius="16dp" />
 <!--    <stroke-->
 <!--        android:width="2dp"-->
-<!--        android:color="#C1A17D" /> &lt;!&ndash; Change this to your preferred border color &ndash;&gt;-->
+<!--        android:color="#C1A17D" /> -->
 
     <padding
         android:top="10dp"

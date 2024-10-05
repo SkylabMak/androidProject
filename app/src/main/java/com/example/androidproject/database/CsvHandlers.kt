@@ -82,7 +82,8 @@ open class  MenuHandler(rawResourceId: Int, context: Context) : CSVHandler(rawRe
             hasOthers = line[6] == "1",
             categoryId = line[7],
             cookingMethodId = line[8],
-            cal = parseInt(line[9])
+            cal = parseInt(line[9]),
+            index = 0
         )
     }
 
@@ -95,14 +96,14 @@ open class  MenuHandler(rawResourceId: Int, context: Context) : CSVHandler(rawRe
     }
 
     fun randomMenu(category: String, cookingMethod: String, vegetable: String, meat: String): Menu? {
+
         return if (category == "0" && cookingMethod == "0") {
-            // คืนค่าสุ่มเมนูจากรายการทั้งหมดถ้าไม่กรองหมวดหมู่และวิธีทำอาหาร
             if (menus.isNotEmpty()) menus.random() else null
         } else {
-            // กรองเมนูตามหมวดหมู่และวิธีทำอาหาร
             val filteredMenus = filterMenus(category, cookingMethod)
-            // ตรวจสอบว่ารายการที่กรองมาได้ว่างหรือไม่
+            Log.d("filteredMenusLen",filterMenus(category, cookingMethod).size.toString())
             return if (filteredMenus.isNotEmpty()) {
+
                 val randomEd = filteredMenus.random()
                 Log.d("filteredMenus", "$filteredMenus")
                 Log.d("randomMenu", "$randomEd")
@@ -117,11 +118,14 @@ open class  MenuHandler(rawResourceId: Int, context: Context) : CSVHandler(rawRe
 
     public fun filterMenus(category: String? = null, cookingMethod: String? = null): List<Menu> {
         Log.d("filterID", "$category $cookingMethod")
-        return menus.filter { menu ->
-            val isCategoryMatch = category?.let { it == menu.categoryId } ?: true
-            val isCookingMethodMatch = cookingMethod?.let { it == menu.cookingMethodId } ?: true
+        val filtered = menus.filter { menu ->
+            val isCategoryMatch = category?.let { it == "0" || it == menu.categoryId } ?: true
+            val isCookingMethodMatch = cookingMethod?.let { it == "0" || it == menu.cookingMethodId } ?: true
+            Log.d("filteredMenusLen","ID : ${menu.id} $isCategoryMatch $isCookingMethodMatch")
             isCategoryMatch && isCookingMethodMatch
         }
+        Log.d("filteredMenusLen","filter done : $filtered")
+        return filtered
     }
 
 }
