@@ -1,12 +1,16 @@
 package com.example.androidproject
 
+import android.app.Activity
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.androidproject.database.*
 import com.example.androidproject.databinding.ActivityMainBinding
 import java.util.concurrent.atomic.AtomicInteger
@@ -30,11 +34,14 @@ class MainActivity : ComponentActivity() {
     private lateinit var category: CategoryCSVStorage
 
     //store
-    private lateinit var menuResult : Menu
+    private lateinit var menuResult: Menu
     private var itemResult: MutableList<Item> = mutableListOf()
     private var foodName = StringWrapper("food")
+    private val fileName = R.string.fileName.toString()
+
     //private var itemResult: Array<Item> = Array(5){ Item("defaultId", "defaultName", 0,0)}
     private var firstRandom = false
+    private val resultMenuName = StringBuilder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +61,57 @@ class MainActivity : ComponentActivity() {
         setupConflictSelect()
         setupSpinners()
         setupRandomBtn()
+        setupHistoryFile()
+        setupSaveHistory()
+        setupHistoryBtn()
+    }
+    private fun setupHistoryBtn(){
+        binding.historyButton.setOnClickListener {
+            val intent = HistoryActivity.newIntent(
+                context = this,
+            )
+            startActivity(intent)
+        }
+    }
 
+
+    private fun setupSaveHistory() {
+        binding.saveButton.setOnClickListener {
+            //vegetables,meat,water,noodles,others
+            var cal: Int = menuResult.cal
+            itemResult.forEach {
+                cal += it.cal
+            }
+            val saveMenuData = SaveMenu(
+                menuResult.id,
+                resultMenuName.toString(),
+                itemResult[1].id,
+                itemResult[2].id,
+                itemResult[3].id,
+                itemResult[0].id,
+                itemResult[4].id,
+                binding.categorySelect.selectedItemPosition.toString(),
+                binding.methodSelect.selectedItemPosition.toString(),
+                cal,
+                ""
+            )
+            CSVModifier(fileName,this).appendMenu(saveMenuData)
+            binding.saveButton.visibility = View.GONE
+            val testCSV : MutableList<SaveMenu> = CSVModifier(fileName,this).readMenusFromCSV(true)
+            testCSV.forEach{
+                Log.d("testCSV",it.toString())
+            }
+        }
+    }
+
+    private fun setupHistoryFile() {
+
+        val csvModifier: CSVModifier = CSVModifier(fileName, this)
+        val fileExist: Boolean = csvModifier.isCsvFileExists()
+        if (!fileExist) {
+            csvModifier.copyCsvToInternalStorage(R.raw.history)
+        }
+        Log.d("testCSV ",fileExist.toString())
     }
 
     private fun initializeIngredients() {
@@ -69,20 +126,35 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun setupDetailBtn(){
+    private val detailLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                binding.saveButton.visibility = View.GONE
+            }
+            Activity.RESULT_CANCELED -> {
+                binding.saveButton.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun setupDetailBtn() {
         binding.detailInfo.visibility = View.VISIBLE
         binding.constraintResult.setOnClickListener {
             Log.d("Detail", "Detail constraint clicked!")
             val config = ConfigDataCal(//run data class
                 name = foodName,
                 menu = menuResult,
-                item = itemResult
+                item = itemResult,
+                category = binding.categorySelect.selectedItemPosition.toString(),
+                method = binding.methodSelect.selectedItemPosition.toString(),
+                time = "",
+                saved = binding.saveButton.visibility == View.GONE
             )
             val intent = DetailActivity.newIntent(
                 context = this,
                 config = config
             )
-            startActivity(intent)
+            detailLauncher.launch(intent)
         }
     }
 
@@ -113,8 +185,8 @@ class MainActivity : ComponentActivity() {
             initializeIngredients()
 
             itemResult.clear()
+            resultMenuName.clear()
 
-            val result = StringBuilder()
             val totalCalories = AtomicInteger(0)
             val catID = binding.categorySelect.selectedItemPosition
             val cookID = binding.methodSelect.selectedItemPosition
@@ -131,23 +203,31 @@ class MainActivity : ComponentActivity() {
             }
             Log.d("food random ", "food random found")
             totalCalories.addAndGet(randomMenu.cal)
-            result.append(" " + randomMenu.name)
+            resultMenuName.append(" " + randomMenu.name)
 
-            addIngredientToResult(randomMenu.hasVegetables, vegetableID, vegetable, result, totalCalories)
-            addIngredientToResult(randomMenu.hasMeat, meatID, meats, result, totalCalories)
-            addIngredientToResult(randomMenu.hasWater, 0, water, result, totalCalories)
-            addIngredientToResult(randomMenu.hasNoodles, 0, noodles, result, totalCalories)
-            addIngredientToResult(randomMenu.hasOthers, 0, other, result, totalCalories)
-            binding.resultNameDisplay.text = result.toString()
+            addIngredientToResult(
+                randomMenu.hasVegetables,
+                vegetableID,
+                vegetable,
+                resultMenuName,
+                totalCalories
+            )
+            addIngredientToResult(randomMenu.hasMeat, meatID, meats, resultMenuName, totalCalories)
+            addIngredientToResult(randomMenu.hasWater, 0, water, resultMenuName, totalCalories)
+            addIngredientToResult(randomMenu.hasNoodles, 0, noodles, resultMenuName, totalCalories)
+            addIngredientToResult(randomMenu.hasOthers, 0, other, resultMenuName, totalCalories)
+            binding.resultNameDisplay.text = resultMenuName.toString()
             binding.resultCalDisplay.text = getString(R.string.cal_value, totalCalories.get())
 
             //setToNextPage
             menuResult = randomMenu
-            foodName = StringWrapper(result.toString())
-            if(!firstRandom){
+            foodName = StringWrapper(resultMenuName.toString())
+            if (!firstRandom) {
                 firstRandom = true
                 setupDetailBtn()
+
             }
+            binding.saveButton.visibility = View.VISIBLE
         }
     }
 
@@ -158,27 +238,25 @@ class MainActivity : ComponentActivity() {
         result: StringBuilder,
         resultCal: AtomicInteger,
     ) {
-            val ingredient: T? = if (ingredientID != 0) {
-                item.findRandom(ingredientID.toString())
+        val ingredient: T? = if (ingredientID != 0) {
+            item.findRandom(ingredientID.toString())
+        } else {
+            item.findRandom()
+        }
+        if (ingredient != null) {
+            if (hasIngredient) {
+                result.append(" " + ingredient.name)
+                resultCal.addAndGet(ingredient.cal)
+                Log.d("resultCal", resultCal.get().toString())
+                itemResult.add(ingredient)
             } else {
-                item.findRandom()
+                itemResult.add(Item("", "", 0, 0))
             }
-            if (ingredient != null) {
-                if (hasIngredient) {
-                    result.append(" " + ingredient.name)
-                    resultCal.addAndGet(ingredient.cal)
-                    Log.d("resultCal",resultCal.get().toString())
-                    itemResult.add(ingredient)
-                }
-                else{
-                    itemResult.add(Item("","",0,0))
-                }
-                Log.d("checkInputintend","add ${ingredient.name}")
-            }
-            else{
-                itemResult.add(Item("","",0,0))
-                Log.d("checkInputintend","add 0")
-            }
+            Log.d("checkInputintend", "add ${ingredient.name}")
+        } else {
+            itemResult.add(Item("", "", 0, 0))
+            Log.d("checkInputintend", "add 0")
+        }
     }
 
 
@@ -276,7 +354,9 @@ class MainActivity : ComponentActivity() {
     private fun setupSpinners() {
         setupSpinner(binding.categorySelect, category.findAll())
         setupSpinner(binding.methodSelect, cookingMethod.findAll())
-        setupSpinner(binding.menuSelect, menu.findAll().map { Item(it.id, it.name, it.cal,it.index) })
+        setupSpinner(
+            binding.menuSelect,
+            menu.findAll().map { Item(it.id, it.name, it.cal, it.index) })
         setupSpinner(binding.vegetablePrevent, vegetable.findAll())
         setupSpinner(binding.meatPrevent, meats.findAll())
     }

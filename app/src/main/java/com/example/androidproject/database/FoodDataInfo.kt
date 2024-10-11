@@ -17,6 +17,21 @@ data class Menu(
     val cal: Int,
     val index: Int
 ): Parcelable
+
+@Parcelize
+data class SaveMenu(
+    val id: String,
+    val name: String,
+    val meat: String,
+    val noodles: String,
+    val water : String,
+    val vegetables: String,
+    val others: String,
+    val categoryId: String,
+    val cookingMethodId: String,
+    val cal: Int,
+    val timestamp: String
+): Parcelable
 //@Parcelize
 //data class ConfigDataCal(
 //    var itemResult: MutableList<Item> = mutableListOf()

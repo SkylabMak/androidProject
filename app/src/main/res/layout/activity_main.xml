@@ -1,217 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@color/backgroundColor"
-    tools:context=".MainActivity">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:text="@string/food_random"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintResult"
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_width="wrap_content"
-            android:background="@drawable/result_menu_background"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/resultNameDisplay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/resultMenu"
-                android:gravity="center"
-                android:minWidth="200dp"
-                android:textColor="#000000"
-                android:textSize="50sp"
-                />
-
-            <TextView
-                android:id="@+id/resultCalDisplay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/cal_value"
-                android:gravity="center"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/detailInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginRight="4dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/infoicon"
-                android:layout_margin="4dp"/>
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/detail"/>-->
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
+    >
     <LinearLayout
-        android:id="@+id/main_body"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginHorizontal="80dp"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            style="@style/CustomVerticalLinearLayoutGroupStyle">
-            <TextView
-                style="@style/CustomTextViewStyleWithMargin"
-                android:text="@string/specific"
-                />
-            <LinearLayout
-                style="@style/CustomVerticalLinearLayoutGroupBodyStyle"
-                >
-                <LinearLayout
-                    style="@style/CustomLinearLayoutSelectStyle"
-                    >
-                    <TextView
-                        style="@style/CustomTextViewStyle"
-                        android:text="@string/category"/>
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                    <Spinner
-                        android:id="@+id/categorySelect"
-                        style="@style/CustomSpinnerStyle"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    style="@style/CustomLinearLayoutSelectStyle"
-                    >
-                    <TextView
-                        style="@style/CustomTextViewStyle"
-                        android:text="@string/cooking_method"/>
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                    <Spinner
-                        android:id="@+id/methodSelect"
-                        style="@style/CustomSpinnerStyle"
-                        />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            style="@style/CustomVerticalLinearLayoutGroupStyle">
-            <TextView
-                style="@style/CustomTextViewStyleWithMargin"
-                android:text="@string/menu"
-                android:textColor="@color/textColorPrimary"/>
-            <LinearLayout
-                style="@style/CustomVerticalLinearLayoutGroupBodyStyle"
-                >
-                <LinearLayout
-                    style="@style/CustomLinearLayoutSelectStyle"
-                    >
-                    <TextView
-                        style="@style/CustomTextViewStyle"
-                        android:text="@string/menu"/>
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                    <Spinner
-                        android:id="@+id/menuSelect"
-                        style="@style/CustomSpinnerStyle"
-                        />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            style="@style/CustomVerticalLinearLayoutGroupStyle">
+        android:background="@color/backgroundColor"
+        tools:context=".MainActivity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:text="@string/food_random"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
-            <TextView
-                style="@style/CustomTextViewStyleWithMargin"
-                android:text="@string/food_allergies"
-                android:textColor="@color/textColorPrimary"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintResult"
+            android:layout_width="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_height="wrap_content">
             <LinearLayout
-                style="@style/CustomVerticalLinearLayoutGroupBodyStyle"
-                >
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="wrap_content"
+                android:background="@drawable/result_menu_background"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/resultNameDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/resultMenu"
+                    android:gravity="center"
+                    android:minWidth="200dp"
+                    android:textColor="#000000"
+                    android:textSize="50sp"
+                    />
+
+                <TextView
+                    android:id="@+id/resultCalDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cal_value"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/detailInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="4dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/infoicon"
+                    android:layout_margin="4dp"/>
+                <!--            <TextView-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:text="@string/detail"/>-->
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:id="@+id/main_body"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginHorizontal="80dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/CustomVerticalLinearLayoutGroupStyle">
+                <TextView
+                    style="@style/CustomTextViewStyleWithMargin"
+                    android:text="@string/specific"
+                    />
                 <LinearLayout
-                    style="@style/CustomLinearLayoutSelectStyle" >
+                    style="@style/CustomVerticalLinearLayoutGroupBodyStyle"
+                    >
+                    <LinearLayout
+                        style="@style/CustomLinearLayoutSelectStyle"
+                        >
+                        <TextView
+                            style="@style/CustomTextViewStyle"
+                            android:text="@string/category"/>
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                        <Spinner
+                            android:id="@+id/categorySelect"
+                            style="@style/CustomSpinnerStyle"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        style="@style/CustomLinearLayoutSelectStyle"
+                        >
+                        <TextView
+                            style="@style/CustomTextViewStyle"
+                            android:text="@string/cooking_method"/>
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                        <Spinner
+                            android:id="@+id/methodSelect"
+                            style="@style/CustomSpinnerStyle"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/CustomVerticalLinearLayoutGroupStyle">
+                <TextView
+                    style="@style/CustomTextViewStyleWithMargin"
+                    android:text="@string/menu"
+                    android:textColor="@color/textColorPrimary"/>
+                <LinearLayout
+                    style="@style/CustomVerticalLinearLayoutGroupBodyStyle"
+                    >
+                    <LinearLayout
+                        style="@style/CustomLinearLayoutSelectStyle"
+                        >
+                        <TextView
+                            style="@style/CustomTextViewStyle"
+                            android:text="@string/menu"/>
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                        <Spinner
+                            android:id="@+id/menuSelect"
+                            style="@style/CustomSpinnerStyle"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                style="@style/CustomVerticalLinearLayoutGroupStyle">
+
+                <TextView
+                    style="@style/CustomTextViewStyleWithMargin"
+                    android:text="@string/food_allergies"
+                    android:textColor="@color/textColorPrimary"/>
+                <LinearLayout
+                    style="@style/CustomVerticalLinearLayoutGroupBodyStyle"
+                    >
+                    <LinearLayout
+                        style="@style/CustomLinearLayoutSelectStyle" >
                         <TextView
                             style="@style/CustomTextViewStyle"
                             android:text="@string/vegetable"/>
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
 
-                    <Spinner
-                        android:id="@+id/vegetablePrevent"
-                        style="@style/CustomSpinnerStyle"
-                        />
+                        <Spinner
+                            android:id="@+id/vegetablePrevent"
+                            style="@style/CustomSpinnerStyle"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        style="@style/CustomLinearLayoutSelectStyle"
+                        >
+                        <TextView
+                            style="@style/CustomTextViewStyle"
+                            android:text="@string/Meat"/>
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                        <Spinner
+                            android:id="@+id/meatPrevent"
+                            style="@style/CustomSpinnerStyle"
+                            />
+                    </LinearLayout>
                 </LinearLayout>
-                <LinearLayout
-                    style="@style/CustomLinearLayoutSelectStyle"
-                    >
-                    <TextView
-                        style="@style/CustomTextViewStyle"
-                        android:text="@string/Meat"/>
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-                    <Spinner
-                        android:id="@+id/meatPrevent"
-                        style="@style/CustomSpinnerStyle"
-                        />
-                </LinearLayout>
+
             </LinearLayout>
-
         </LinearLayout>
-    </LinearLayout>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
+        <Button
+            android:id="@+id/randomButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/randomBtn"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/button_background"/>
+
+
+
+    </LinearLayout>
     <Button
-        android:id="@+id/randomButton"
+        android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/randomBtn"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/button_background"/>
-
-</LinearLayout>
+        android:layout_marginRight="50dp"
+        android:background="@drawable/button_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        android:text="@string/save" />
+    <Button
+        android:id="@+id/historyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="50dp"
+        android:background="@drawable/button_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="@string/history" />
+</androidx.constraintlayout.widget.ConstraintLayout>

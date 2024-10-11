@@ -21,4 +21,9 @@
     <string name="sum">รวมทั้งหมด</string>
     <string name="detail">รายละเอียด</string>
     <string name="title_activity_detail2">detailActivity2</string>
+    <string name="save">บันทึก</string>
+    <string name="time">เวลา</string>
+    <string name="history">ประวัติ</string>
+    <string name="fileName">history"</string>
+    <string name="clear">ล้าง</string>
 </resources>
