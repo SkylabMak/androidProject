@@ -37,7 +37,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var menuResult: Menu
     private var itemResult: MutableList<Item> = mutableListOf()
     private var foodName = StringWrapper("food")
-    private val fileName = R.string.fileName.toString()
+//    private val fileName = R.string.fileName.toString()
+    private lateinit var fileName : String
 
     //private var itemResult: Array<Item> = Array(5){ Item("defaultId", "defaultName", 0,0)}
     private var firstRandom = false
@@ -48,6 +49,8 @@ class MainActivity : ComponentActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fileName = getString(R.string.fileName)
 
         menu = MenuStorage(this)
         meats = MeatCSVStorage(this)
@@ -106,10 +109,13 @@ class MainActivity : ComponentActivity() {
 
     private fun setupHistoryFile() {
 
-        val csvModifier: CSVModifier = CSVModifier(fileName, this)
+        val csvModifier = CSVModifier(fileName, this)
         val fileExist: Boolean = csvModifier.isCsvFileExists()
+        Log.d("FileCheck", "CSV file name ${fileName}")
         if (!fileExist) {
             csvModifier.copyCsvToInternalStorage(R.raw.history)
+            Log.d("FileCheck", "CSV file name ${fileName}")
+
         }
         Log.d("testCSV ",fileExist.toString())
     }
@@ -141,7 +147,7 @@ class MainActivity : ComponentActivity() {
         binding.detailInfo.visibility = View.VISIBLE
         binding.constraintResult.setOnClickListener {
             Log.d("Detail", "Detail constraint clicked!")
-            val config = ConfigDataCal(//run data class
+            val config = ConfigDataCal(
                 name = foodName,
                 menu = menuResult,
                 item = itemResult,
@@ -162,16 +168,12 @@ class MainActivity : ComponentActivity() {
         menuID: Int,
         catID: Int,
         cookID: Int,
-        vegetableID: Int,
-        meatID: Int,
     ): Menu? {
-        Log.d("foodID", "$menuID $catID $cookID $vegetableID $meatID")
+        Log.d("foodID", "$menuID $catID $cookID")
         return if (menuID == 0) {
             menu.randomMenu(
                 catID.toString(),
                 cookID.toString(),
-                vegetableID.toString(),
-                meatID.toString()
             )
         } else {
             Log.d("menuID", menuID.toString())
@@ -194,7 +196,7 @@ class MainActivity : ComponentActivity() {
             val vegetableID = binding.vegetablePrevent.selectedItemPosition
             val meatID = binding.meatPrevent.selectedItemPosition
 
-            val randomMenu: Menu? = getRandomMenu(menuID, catID, cookID, vegetableID, meatID)
+            val randomMenu: Menu? = getRandomMenu(menuID, catID, cookID)
 
             if (randomMenu == null) {
                 Log.d("food random ", "no food random")

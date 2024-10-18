@@ -10,8 +10,9 @@ abstract class CSVHandler(private val rawResourceId: Int, private val context: C
     protected fun readCSV(): List<List<String>> {
         val result = mutableListOf<List<String>>()
 
-        val inputStream = context.resources.openRawResource(rawResourceId)
-        BufferedReader(InputStreamReader(inputStream)).use { reader ->
+        val inputFile = context.resources.openRawResource(rawResourceId)
+        //raw byte to character to buffer
+        BufferedReader(InputStreamReader(inputFile)).use { reader ->
             reader.readLine() // Skip the first line (header)
             reader.forEachLine { line ->
                 result.add(line.split(","))
@@ -36,21 +37,22 @@ abstract class CSVHandler(private val rawResourceId: Int, private val context: C
 
 abstract class CSVHandlerItem<T : Item>(private val rawResourceId: Int, private val context: Context, private val mapper: (List<String>) -> T) {
 
-    private val items: List<T> = readCSV().map { line -> mapper(line) }
-
     private fun readCSV(): List<List<String>> {
         val result = mutableListOf<List<String>>()
 
         // อ่านไฟล์จาก res/raw
-        val inputStream = context.resources.openRawResource(rawResourceId)
-        BufferedReader(InputStreamReader(inputStream)).use { reader ->
-            reader.readLine() // Skip the first line (header)
+        val inputFile = context.resources.openRawResource(rawResourceId)
+        //raw byte to character to buffer
+        BufferedReader(InputStreamReader(inputFile)).use { reader ->
+            reader.readLine()
             reader.forEachLine { line ->
                 result.add(line.split(","))
             }
         }
         return result
     }
+
+    private val items: List<T> = readCSV().map { line -> mapper(line) }
 
     fun findAll(): List<T> {
         return items
@@ -95,7 +97,7 @@ open class  MenuHandler(rawResourceId: Int, context: Context) : CSVHandler(rawRe
         return menus.firstOrNull { it.id == id }
     }
 
-    fun randomMenu(category: String, cookingMethod: String, vegetable: String, meat: String): Menu? {
+    fun randomMenu(category: String, cookingMethod: String): Menu? {
 
         return if (category == "0" && cookingMethod == "0") {
             if (menus.isNotEmpty()) menus.random() else null

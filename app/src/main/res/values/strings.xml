@@ -24,6 +24,6 @@
     <string name="save">บันทึก</string>
     <string name="time">เวลา</string>
     <string name="history">ประวัติ</string>
-    <string name="fileName">history"</string>
+    <string name="fileName">history</string>
     <string name="clear">ล้าง</string>
 </resources>

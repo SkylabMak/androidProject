@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import androidx.activity.ComponentActivity
 import com.example.androidproject.database.CSVModifier
-import com.example.androidproject.database.SaveMenu
 import com.example.androidproject.databinding.ActivityDetailBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -17,7 +16,7 @@ import java.util.Locale
 class DetailActivity : ComponentActivity() {
     private lateinit var binding: ActivityDetailBinding
     private var confiResultData : ConfigDataCal? = null
-    val fileName = R.string.fileName.toString()
+    lateinit var fileName : String
     var sum = 0
     companion object{
         private const val EXTRA_CONFIG="config"
@@ -35,6 +34,9 @@ class DetailActivity : ComponentActivity() {
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fileName = getString(R.string.fileName)
+
         setupBackBtn()
         setupSaveHistory()
         setValue()
@@ -74,6 +76,9 @@ class DetailActivity : ComponentActivity() {
     private fun setValue(){
         //vegetables,meat,water,noodles,others
         confiResultData = intent.getParcelableExtra(EXTRA_CONFIG)
+
+        binding.menuName.text = confiResultData?.menu?.name ?: ""
+
         confiResultData?.item?.let { Log.d("checkInputintend", it.joinToString(separator = "") ) }
         binding.menuCal.text = getString(R.string.cal_value, confiResultData?.menu?.cal ?:0 )
         binding.vegetableCal.text = getString(R.string.cal_value,

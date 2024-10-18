@@ -17,3 +17,18 @@ data class ConfigDataCal
     val time : String,
     val saved : Boolean
 ) : Parcelable
+
+@Parcelize
+data class SaveMenu(
+    val id: String,
+    val name: String,
+    val meat: String,
+    val noodles: String,
+    val water : String,
+    val vegetables: String,
+    val others: String,
+    val categoryId: String,
+    val cookingMethodId: String,
+    val cal: Int,
+    val timestamp: String
+): Parcelable

@@ -10,17 +10,16 @@ import androidx.core.content.ContextCompat
 class CustomArrayAdapter(context: Context, resource: Int, objects: List<String>) :
     ArrayAdapter<String>(context, resource, objects) {
 
-    var selectedPosition: Int = 0 // ตัวแปรเพื่อเก็บตำแหน่งที่ถูกเลือก, เริ่มต้นเป็น -1 เพื่อให้ไม่มีค่าในตอนเริ่มต้น
+    private var mainPosition: Int = 0
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = super.getView(position, convertView, parent)
         val textView = view.findViewById<TextView>(android.R.id.text1)
 
-        // เปลี่ยนสีเฉพาะตำแหน่งที่ถูกเลือก
-        if (position == selectedPosition) {
-            textView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))  // สีสำหรับตัวเลือกที่เลือก
+        if (position == mainPosition) {
+            textView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
         } else {
-            textView.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))  // สีปกติสำหรับตัวเลือกอื่น
+            textView.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))
         }
 
         return view
@@ -30,11 +29,10 @@ class CustomArrayAdapter(context: Context, resource: Int, objects: List<String>)
         val view = super.getDropDownView(position, convertView, parent)
         val textView = view.findViewById<TextView>(android.R.id.text1)
 
-        // เปลี่ยนสีเฉพาะตำแหน่งที่ถูกเลือก
-        if (position == selectedPosition) {
-            textView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))  // สีสำหรับตัวเลือกที่เลือก
+        if (position == mainPosition) {
+            textView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
         } else {
-            textView.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))  // สีปกติสำหรับตัวเลือกอื่น
+            textView.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))
         }
 
         return view

@@ -71,6 +71,7 @@
             style="@style/CustomLinearLayoutList"
             >
             <TextView
+                android:id="@+id/menuName"
                 style="@style/CustomBigTextViewStyle"
                 android:text="@string/menu"/>
             <Space

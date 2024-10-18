@@ -16,7 +16,6 @@ import com.example.androidproject.database.MeatCSVStorage
 import com.example.androidproject.database.MenuStorage
 import com.example.androidproject.database.NoodlesCSVHandler
 import com.example.androidproject.database.OtherIngredientsCSVStorage
-import com.example.androidproject.database.SaveMenu
 import com.example.androidproject.database.StringWrapper
 import com.example.androidproject.database.VegetableCSVStorage
 import com.example.androidproject.database.WaterCSVStorage
@@ -25,7 +24,6 @@ import com.example.androidproject.databinding.ActivityHistoryBinding
 class HistoryActivity : ComponentActivity(){
     private lateinit var binding: ActivityHistoryBinding
     //on click
-
 
     //on create
     private lateinit var other: OtherIngredientsCSVStorage
@@ -68,14 +66,14 @@ class HistoryActivity : ComponentActivity(){
 
     private fun setupClearBtn(){
         binding.historyClearButton.setOnClickListener {
-            CSVModifier(R.string.fileName.toString(),this).clearAndCopyCsvToInternalStorage(R.raw.history)
+            CSVModifier(getString(R.string.fileName),this).clearAndCopyCsvToInternalStorage(R.raw.history)
             val container = binding.menuCardContainer
             container.removeAllViews()
         }
     }
 
     private fun getHistory (): MutableList<SaveMenu>{
-        return CSVModifier(R.string.fileName.toString(),this).readMenusFromCSV(true)
+        return CSVModifier(getString(R.string.fileName),this).readMenusFromCSV(true)
     }
     private fun checkNullItem(item: Item?): Item {
         return item ?: Item("", "", 0, 0)
@@ -86,25 +84,26 @@ class HistoryActivity : ComponentActivity(){
         Log.d("loop to add",menuList.size.toString())
         for (menu in menuList) {
             Log.d("loop to add",menu.toString())
-            // Inflate the menu_card.xml layout for each menu item
+            // Inflate the menu_card.xml
             val menuCardView = layoutInflater.inflate(R.layout.menu_card, container, false)
 
-            // Find and populate the views with data from the SaveMenu object
+            // ser variable
             val menuNameTextView = menuCardView.findViewById<TextView>(R.id.menuName)
             val calCardTextView = menuCardView.findViewById<TextView>(R.id.calCard)
             val timeTextView = menuCardView.findViewById<TextView>(R.id.time)
             val dateTextView = menuCardView.findViewById<TextView>(R.id.date)
             val detail = menuCardView.findViewById<LinearLayout>(R.id.menuCard)
 
-            // Set the values to the views from the SaveMenu object
+            // Set the values
             menuNameTextView.text = menu.name
             calCardTextView.text = getString(R.string.cal_value,menu.cal)  // Assuming cal is an integer representing calories
             val datWithTime = menu.timestamp.split(" ")
             dateTextView.text = datWithTime[0]
             timeTextView.text = datWithTime[1]
+
             detail.setOnClickListener {
                 Log.d("testMenu",menu.toString())
-                val config = ConfigDataCal(//run data class
+                val config = ConfigDataCal(
                     name = StringWrapper(menu.name),
                     menu = menuStore.getById(menu.id)!!,
                     //vegetables,meat,water,noodles,others
@@ -126,15 +125,14 @@ class HistoryActivity : ComponentActivity(){
                 )
                 startActivity(intent)
             }
-            // Add the populated card to the container
             container.addView(menuCardView)
         }
     }
 
     private fun setupBackbtn(){
         binding.historyBackButton.setOnClickListener {
-            setResult(Activity.RESULT_OK) // Send the result
-            finish() // Finish the Activity and return the result
+            setResult(Activity.RESULT_OK)
+            finish()
         }
     }
 }
